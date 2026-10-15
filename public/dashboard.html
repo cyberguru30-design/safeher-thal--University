@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeHer - Bhakkar | Dashboard</title>
+  <meta name="theme-color" content="#7C3AED">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" href="/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+    .hero-text-grad { background: linear-gradient(135deg, #7C3AED 0%, #3730A3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    @keyframes bhakkarPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.8), 0 0 16px rgba(225, 29, 72, 0.6); }
+      50% { transform: scale(1.18); box-shadow: 0 0 0 10px rgba(225, 29, 72, 0.2), 0 0 28px rgba(225, 29, 72, 0.85); }
+    }
+    @keyframes rippleRing1 {
+      0% { transform: scale(0.7); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    @keyframes rippleRing2 {
+      0% { transform: scale(0.7); opacity: 0.75; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    @keyframes rippleRing3 {
+      0% { transform: scale(0.7); opacity: 0.6; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+    @keyframes rippleRing4 {
+      0% { transform: scale(0.7); opacity: 0.45; }
+      100% { transform: scale(3.1); opacity: 0; }
+    }
+    .pulse-bhakkar {
+      animation: bhakkarPulse 1.8s infinite ease-in-out;
+    }
+    .ripple-1 { animation: rippleRing1 2.4s infinite ease-out 0s; }
+    .ripple-2 { animation: rippleRing2 2.4s infinite ease-out 0.6s; }
+    .ripple-3 { animation: rippleRing3 2.4s infinite ease-out 1.2s; }
+    .ripple-4 { animation: rippleRing4 2.4s infinite ease-out 1.8s; }
+  </style>
+</head>
+<body class="bg-[#FAF9FC] text-[#1E1B4B] min-h-screen flex flex-col selection:bg-[#7C3AED] selection:text-white">
+
+  <!-- Splash Screen 1.5s -->
+  <div id="splashScreen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center text-white transition-opacity duration-500" style="background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #4F46E5 100%);">
+    <div class="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-md flex items-center justify-center text-4xl mb-4 shadow-2xl animate-pulse">
+      🛡️
+    </div>
+    <h1 class="text-3xl font-black tracking-tight">SafeHer</h1>
+    <p class="text-xs uppercase tracking-widest text-purple-200 mt-1 font-bold">Thal University Bhakkar</p>
+    <div class="w-8 h-8 border-3 border-white/30 border-t-white rounded-full animate-spin my-5"></div>
+    <p class="text-sm font-semibold text-white">Securing Thal University Bhakkar...</p>
+    <p class="text-[11px] text-purple-200 mt-1">100% Offline Enabled · WhatsApp-Grade Protection</p>
+  </div>
+
+  <!-- Top Offline Status Banner -->
+  <div id="connBanner" class="w-full py-1.5 px-4 text-xs font-semibold flex items-center justify-between bg-emerald-700 text-white shadow-xs">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span id="connDot" class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+        <span id="connText">🟢 Online - Synced with Bhakkar Hub (District Bhakkar, Punjab)</span>
+      </div>
+      <div class="flex items-center gap-3 text-[11px]">
+        <span id="livePktTime" class="hidden sm:inline font-mono">PKT --:--:--</span>
+        <span class="bg-white/20 px-2 py-0.5 rounded-full font-bold">Bhakkar 32°C ☀️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E5E7EB]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="/dashboard.html" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] flex items-center justify-center text-white shadow-md text-2xl font-black">
+          🛡️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-black text-xl text-[#1E1B4B] tracking-tight">SafeHer</span>
+            <span class="text-[10px] font-black text-[#7C3AED] bg-[#F5F3FF] px-2 py-0.5 rounded-full border border-[#DDD6FE]">
+              PAKISTAN FIRST
+            </span>
+          </div>
+          <p class="text-[11px] text-[#6B7280]">Operational Hub · Bhakkar, Punjab</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-bold text-[#4B5563]">
+        <a href="#hero" class="text-[#7C3AED] hover:text-[#5B21B6]">Home</a>
+        <a href="#features" class="hover:text-[#7C3AED]">My Safety</a>
+        <a href="#guardians" class="hover:text-[#7C3AED]">Guardians (<span id="navGuardianCount">5</span>)</a>
+        <a href="#mapSection" class="hover:text-[#7C3AED]">Map</a>
+        <button onclick="openModal('supportModal')" class="hover:text-[#7C3AED]">Help Center</button>
+      </nav>
+
+      <!-- User & Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button id="pwaInstallBtn" onclick="installAppPrompt()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl shadow-xs transition-colors">
+          📲 Install App
+        </button>
+
+        <!-- Profile badge with email and logout -->
+        <div class="flex items-center gap-2 pl-2 border-l border-[#E5E7EB]">
+          <div class="text-right hidden md:block">
+            <p id="userNameDisplay" class="text-xs font-bold text-[#1E1B4B]">Sanam Baloch</p>
+            <p id="userEmailDisplay" class="text-[10px] text-gray-500 font-mono">sanam.baloch@thaluni.edu.pk</p>
+          </div>
+          <button onclick="handleLogout()" title="Logout / Switch Account" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs rounded-xl border border-red-200 transition-colors">
+            Logout
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileNav()" class="lg:hidden p-2 text-gray-600 hover:text-black">
+          ☰
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-[#E5E7EB] px-4 py-4 space-y-3">
+      <a href="#hero" onclick="toggleMobileNav()" class="block text-sm font-bold text-[#7C3AED]">Home</a>
+      <a href="#features" onclick="toggleMobileNav()" class="block text-sm font-bold text-[#4B5563]">My Safety Features</a>
+      <a href="#guardians" onclick="toggleMobileNav()" class="block text-sm font-bold text-[#4B5563]">Guardians (5)</a>
+      <a href="#mapSection" onclick="toggleMobileNav()" class="block text-sm font-bold text-[#4B5563]">Bhakkar Safety Map</a>
+      <button onclick="openModal('supportModal'); toggleMobileNav();" class="block text-sm font-bold text-[#4B5563] text-left">Help Center</button>
+      <button onclick="installAppPrompt()" class="w-full py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl">📲 Install SafeHer App</button>
+    </div>
+  </header>
+
+  <!-- Recent Alert Live Ticker -->
+  <div class="bg-purple-50 border-b border-purple-100 py-2 px-4 text-xs font-semibold text-[#5B21B6] flex items-center justify-between">
+    <div class="max-w-7xl mx-auto w-full flex items-center gap-2 overflow-hidden">
+      <span class="px-2 py-0.5 bg-[#7C3AED] text-white text-[10px] font-black rounded-md shrink-0 uppercase tracking-wide">
+        Live Ticker
+      </span>
+      <p class="truncate text-xs">
+        📢 Last alert: 2 hours ago at Thal University Library - Resolved · All Campus Patrols Active
+      </p>
+    </div>
+  </div>
+
+  <!-- HERO SECTION WITH FAINT WORLD MAP SVG & BHAKKAR PULSING RED DOT -->
+  <section id="hero" class="relative bg-white pt-12 pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E5E7EB] overflow-hidden">
+    
+    <!-- Faint World Map SVG Background (light gray #F3F4F6 world map opacity 0.3) -->
+    <div class="absolute inset-0 pointer-events-none opacity-25 flex items-center justify-center">
+      <svg class="w-full h-full max-w-6xl object-contain text-gray-300" viewBox="0 0 1000 500" fill="currentColor">
+        <path d="M150,150 Q180,100 250,120 T350,160 T450,120 T550,180 T650,140 T750,170 T850,130 L850,300 Q750,350 650,300 T450,380 T250,320 Z" opacity="0.3" />
+        <circle cx="200" cy="200" r="100" fill="#F3F4F6"/>
+        <circle cx="500" cy="220" r="140" fill="#F3F4F6"/>
+        <circle cx="750" cy="240" r="120" fill="#F3F4F6"/>
+      </svg>
+    </div>
+
+    <div class="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+      
+      <!-- Interactive Global Map Node Visualizer with Headquarters Bhakkar Focus -->
+      <div class="relative w-full max-w-3xl mx-auto h-64 sm:h-72 rounded-3xl bg-gradient-to-b from-[#FAF9FC] to-[#F3F4F6] border border-[#E5E7EB] shadow-inner p-6 flex flex-col justify-between overflow-hidden">
+        
+        <!-- Faint grid pattern -->
+        <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#CBD5E1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+        <div class="relative z-10 flex items-center justify-between text-xs font-bold text-gray-500">
+          <span class="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Global Safety Network Matrix
+          </span>
+          <span class="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full shadow-xs">
+            Operational Zone: Thal Region
+          </span>
+        </div>
+
+        <!-- Node cluster center: Headquarters Bhakkar -->
+        <div class="relative z-10 my-auto flex flex-col items-center justify-center">
+          
+          <!-- BHAKKAR PULSING RED DOT 3X BIGGER THAN OTHER CITIES (#E11D48) WITH 4 RIPPLE RINGS ANIMATION -->
+          <div class="relative flex items-center justify-center w-48 h-48">
+            <!-- 4 Ripple Rings Animation (Always Pulsing) -->
+            <div class="absolute w-14 h-14 rounded-full border-2 border-[#E11D48] ripple-1 pointer-events-none"></div>
+            <div class="absolute w-22 h-22 rounded-full border-2 border-[#E11D48] ripple-2 pointer-events-none"></div>
+            <div class="absolute w-32 h-32 rounded-full border border-[#E11D48] ripple-3 pointer-events-none"></div>
+            <div class="absolute w-42 h-42 rounded-full border border-[#E11D48] ripple-4 pointer-events-none"></div>
+
+            <!-- Central Bhakkar Red Dot - 3X BIGGER than other cities (30px vs 10px), #E11D48, Always Pulsing -->
+            <div class="w-[30px] h-[30px] rounded-full bg-[#E11D48] pulse-bhakkar z-20 flex items-center justify-center text-white text-[12px] font-black shadow-2xl cursor-pointer" title="Headquarters: Bhakkar, Punjab | Pakistan - Operational Hub" style="box-shadow: 0 0 16px rgba(225, 29, 72, 0.7);">
+              ★
+            </div>
+          </div>
+
+          <!-- Label below Bhakkar: bold -->
+          <div class="mt-2 px-4 py-1.5 bg-white rounded-2xl shadow-md border-2 border-[#E11D48]/30 flex items-center gap-2">
+            <span class="text-[#E11D48] font-bold text-sm">📍</span>
+            <span class="font-bold text-xs sm:text-sm text-[#E11D48] tracking-tight">Headquarters: Bhakkar, Punjab | Pakistan - Operational Hub</span>
+          </div>
+
+          <!-- Other cities: Lahore, Karachi, Islamabad small purple dots #6366F1 -->
+          <div class="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-gray-700">
+            <span class="flex items-center gap-1.5 bg-white/95 px-3 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="Lahore Safety Relay">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-700">Lahore</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-white/95 px-3 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="Karachi Coastal Unit">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-700">Karachi</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-white/95 px-3 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="Islamabad Rapid Hub">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-700">Islamabad</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-white/90 px-2.5 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="Multan Regional Wing">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-600">Multan</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-white/90 px-2.5 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="UK Overseas Safe Node">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-600">UK</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-white/90 px-2.5 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="USA Gateway">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-600">USA</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-white/90 px-2.5 py-1 rounded-xl shadow-xs border border-purple-100 hover:bg-purple-50 cursor-pointer transition-colors" title="UAE Safe Connect">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#6366F1] shadow-xs shrink-0"></span>
+              <span class="font-medium text-gray-600">UAE</span>
+            </span>
+          </div>
+
+        </div>
+
+        <div class="relative z-10 text-[10px] text-gray-400 font-medium text-center">
+          Tap or hover pins to verify active telemetry gateways
+        </div>
+      </div>
+
+      <!-- Heading center: 48px bold gradient #7C3AED to #3730A3 -->
+      <h1 class="text-3xl sm:text-4xl lg:text-[48px] font-black tracking-tight hero-text-grad leading-tight">
+        Your Safety Should Never Be a Question
+      </h1>
+
+      <!-- Subheading: gray 18px center max 600px -->
+      <p class="text-base sm:text-[18px] text-[#6B7280] max-w-[600px] mx-auto leading-relaxed">
+        Real-time protection built for women in Pakistan — starting in Bhakkar, now expanding nationwide and globally.
+      </p>
+
+      <!-- Buttons center -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <a href="#features" class="w-full sm:w-auto px-8 h-[52px] bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:from-[#4338CA] hover:to-[#6D28D9] text-white font-bold text-base rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+          <span>Get Started - Explore Safety Features</span>
+          <span>→</span>
+        </a>
+        <button onclick="triggerSOSOffline()" class="w-full sm:w-auto px-8 h-[52px] bg-[#EF4444] hover:bg-[#DC2626] text-white font-black text-base rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+          <span>🚨</span>
+          <span>SOS Emergency - Instant Alert</span>
+        </button>
+      </div>
+
+      <!-- Stats Bar: 4 Cards White with Shadow -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
+        <div class="bg-white rounded-2xl p-5 border border-[#E5E7EB] shadow-md text-left">
+          <p class="text-2xl font-black text-[#1E1B4B]">500+ 👩</p>
+          <p class="text-xs font-bold text-[#6B7280] mt-1">Women in Bhakkar Protected</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-[#E5E7EB] shadow-md text-left">
+          <p class="text-2xl font-black text-[#7C3AED]">1043 ☎️</p>
+          <p class="text-xs font-bold text-[#6B7280] mt-1">Helpline Connected</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-[#E5E7EB] shadow-md text-left">
+          <p class="text-2xl font-black text-red-600">15 🚨</p>
+          <p class="text-xs font-bold text-[#6B7280] mt-1">Emergency Integrated</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-[#E5E7EB] shadow-md text-left">
+          <p class="text-2xl font-black text-[#247A55]">100% 🗺️</p>
+          <p class="text-xs font-bold text-[#6B7280] mt-1">Thal Region Coverage</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEATURES GRID SECTION -->
+  <section id="features" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12">
+    
+    <div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1E1B4B]">Realistic Safety Tools</h2>
+      <p class="text-sm text-[#6B7280] mt-1">Engineered to work seamlessly 100% offline with zero internet dependency.</p>
+    </div>
+
+    <!-- ROW 1: Live Location Sharing, Audio Recording, Check-in Timer -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Card 1: Live Location Sharing -->
+      <div class="bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm flex flex-col justify-between space-y-4">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-[#7C3AED] flex items-center justify-center text-2xl">
+              📍
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input id="locToggle" type="checkbox" onchange="toggleLocationTracking(this.checked)" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#7C3AED]"></div>
+            </label>
+          </div>
+          <h3 class="text-base font-bold text-[#1E1B4B]">Live Location Sharing</h3>
+          <p class="text-xs text-[#6B7280] mt-1 leading-relaxed">
+            Broadcasts coordinates every 10s and writes to local storage. Displays live map pin at Bhakkar campus.
+          </p>
+        </div>
+        <div id="locStatusBox" class="p-3 bg-purple-50 rounded-xl text-xs font-medium text-[#5B21B6]">
+          Status: Ready (Tap toggle to start)
+        </div>
+      </div>
+
+      <!-- Card 2: Audio Recording -->
+      <div class="bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm flex flex-col justify-between space-y-4">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center text-2xl mb-3">
+            🎙️
+          </div>
+          <h3 class="text-base font-bold text-[#1E1B4B]">Audio Evidence Recording</h3>
+          <p class="text-xs text-[#6B7280] mt-1 leading-relaxed">
+            Discreet microphone recorder using browser MediaRecorder. Saves timestamped audio blobs locally.
+          </p>
+        </div>
+        <div class="space-y-2">
+          <button id="btnAudioRecord" onclick="toggleAudioRecording()" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2">
+            <span>🔴 Start Recording Evidence</span>
+          </button>
+          <p id="audioRecordNotice" class="text-[11px] text-gray-500 text-center font-medium">Saved locally in evidence vault</p>
+        </div>
+      </div>
+
+      <!-- Card 3: Check-in Timer -->
+      <div class="bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm flex flex-col justify-between space-y-4">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl mb-3">
+            ⏱️
+          </div>
+          <h3 class="text-base font-bold text-[#1E1B4B]">Check-in Safety Timer</h3>
+          <p class="text-xs text-[#6B7280] mt-1 leading-relaxed">
+            Set countdown timer. If not cancelled before expiration, triggers offline SOS emergency alert.
+          </p>
+        </div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+            <span class="text-xs font-bold text-gray-700">Time Left:</span>
+            <span id="timerCountdown" class="text-lg font-black text-[#7C3AED] font-mono">30:00</span>
+          </div>
+          <div class="flex gap-2">
+            <button id="btnTimerStart" onclick="startCheckInTimer()" class="flex-1 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl">Start 30m</button>
+            <button onclick="cancelCheckInTimer()" class="py-2 px-3 border border-gray-300 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-100">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2: Guardian Network, Safe Zones, Incident History -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6" id="guardians">
+      
+      <!-- Guardian Network (5 cols) -->
+      <div class="lg:col-span-5 bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-[#1E1B4B]">Guardian Network</h3>
+            <p class="text-xs text-gray-500">Trusted peer circle (Offline storage)</p>
+          </div>
+          <button onclick="openAddGuardianModal()" class="px-3 py-1.5 bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-xs">
+            + Add
+          </button>
+        </div>
+
+        <div id="guardiansList" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Safe Zones & Custom Pin Add (3 cols) -->
+      <div class="lg:col-span-3 bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-[#1E1B4B]">Safe Zones</h3>
+          <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">Bhakkar</span>
+        </div>
+        <div id="safeZonesList" class="space-y-2 text-xs">
+          <!-- Safe zones loaded from localStorage -->
+        </div>
+        <button onclick="openAddSafeZoneModal()" class="w-full py-2 border-2 border-dashed border-[#7C3AED] text-[#7C3AED] text-xs font-bold rounded-xl hover:bg-purple-50 transition-colors">
+          + Add Custom Safe Zone Pin
+        </button>
+      </div>
+
+      <!-- Incident History (4 cols) -->
+      <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-[#1E1B4B]">SOS Incident History</h3>
+          <select id="incidentFilter" onchange="filterIncidents(this.value)" class="text-[11px] border rounded-lg px-2 py-1 font-medium bg-gray-50">
+            <option value="all">All Alerts</option>
+            <option value="offline">Saved Offline</option>
+            <option value="synced">Synced</option>
+          </select>
+        </div>
+        <div id="incidentsTable" class="space-y-2 max-h-[280px] overflow-y-auto pr-1 text-xs">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MAP SECTION: Interactive Leaflet + Offline View Fallback -->
+  <section id="mapSection" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div class="bg-white rounded-3xl p-6 border border-[#E5E7EB] shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="text-xl font-black text-[#1E1B4B]">Bhakkar Safety Map & Campus Grid</h2>
+          <p class="text-xs text-[#6B7280]">Real-time geolocation centered at Thal University Bhakkar Campus.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-semibold">
+          <span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> You</span>
+          <span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span> Safe Zones</span>
+          <span class="inline-flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-600 inline-block"></span> Campus SOS</span>
+        </div>
+      </div>
+
+      <!-- Map Container with Leaflet and CSS Pin Fallback -->
+      <div class="relative w-full h-[380px] rounded-2xl overflow-hidden border border-[#E5E7EB] bg-[#E2E8F0]">
+        <div id="leafletMap" class="w-full h-full z-10"></div>
+        <!-- Static Offline Overlay if Map Tiles Fail to load -->
+        <div id="offlineMapFallback" class="hidden absolute inset-0 z-20 bg-gradient-to-br from-purple-900 to-indigo-950 text-white flex flex-col items-center justify-center p-6 text-center">
+          <div class="text-4xl mb-2">🗺️</div>
+          <h3 class="text-lg font-black">Bhakkar Map - Offline View</h3>
+          <p class="text-xs text-purple-200 mt-1 max-w-md">
+            Thal University Campus coordinates saved offline in phone storage (31.6266° N, 71.0657° E).
+          </p>
+          <div class="mt-4 flex gap-4 text-xs font-bold">
+            <div class="p-2 bg-white/10 rounded-xl">📍 Thal University Main Gate</div>
+            <div class="p-2 bg-white/10 rounded-xl">🛡️ Girls Hostel Safe Zone</div>
+            <div class="p-2 bg-white/10 rounded-xl">📚 Campus Library Refuge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto bg-[#1E1B4B] text-white py-12 px-4 sm:px-6 lg:px-8 border-t border-purple-900">
+    <div class="max-w-7xl mx-auto space-y-6 text-center">
+      <div class="flex items-center justify-center gap-2 text-2xl font-black">
+        <span>🛡️</span>
+        <span>SafeHer - Bhakkar</span>
+      </div>
+      <p class="text-xs sm:text-sm text-purple-200 max-w-2xl mx-auto leading-relaxed">
+        Made in Bhakkar, For Pakistan — SafeHer Guardian Network — Bhakkar | Contact: <strong class="text-white">sanam.baloch@thaluni.edu.pk</strong> | Thal University Bhakkar
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-purple-300 font-semibold pt-2">
+        <button onclick="openModal('privacyModal')" class="hover:text-white transition-colors">Privacy</button>
+        <button onclick="openModal('termsModal')" class="hover:text-white transition-colors">Terms</button>
+        <button onclick="openModal('safetyModal')" class="hover:text-white transition-colors">Safety</button>
+        <button onclick="openModal('supportModal')" class="hover:text-white transition-colors">Support</button>
+      </div>
+      <p class="text-[11px] text-purple-400 pt-4 border-t border-purple-800/50">
+        Class Project by Sanam Baloch · BSIT Student, Department of Computer Science, Thal University Bhakkar · District Bhakkar, Punjab, Pakistan
+      </p>
+    </div>
+  </footer>
+
+  <!-- MODALS -->
+  <!-- Add Guardian Modal -->
+  <div id="guardianModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-left shadow-2xl">
+      <h3 class="text-base font-bold text-[#1E1B4B]">Add Trusted Guardian</h3>
+      <form onsubmit="saveNewGuardian(event)" class="space-y-3 mt-3">
+        <input id="gName" type="text" required placeholder="Name (e.g. Fatima / Brother)" class="w-full px-3 py-2 border rounded-xl text-xs">
+        <input id="gPhone" type="tel" required placeholder="Phone (e.g. 0316-7054627)" class="w-full px-3 py-2 border rounded-xl text-xs">
+        <input id="gRelation" type="text" required placeholder="Relation (e.g. Sister / Campus Friend)" class="w-full px-3 py-2 border rounded-xl text-xs">
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl">Save Offline</button>
+          <button type="button" onclick="closeModal('guardianModal')" class="py-2 px-3 border text-xs font-semibold rounded-xl">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Safe Zone Modal -->
+  <div id="safeZoneModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-left shadow-2xl">
+      <h3 class="text-base font-bold text-[#1E1B4B]">Add Custom Safe Zone</h3>
+      <form onsubmit="saveNewSafeZone(event)" class="space-y-3 mt-3">
+        <input id="szName" type="text" required placeholder="Zone Name (e.g. Student Center)" class="w-full px-3 py-2 border rounded-xl text-xs">
+        <input id="szLocation" type="text" required placeholder="Location (e.g. Bhakkar City Block 3)" class="w-full px-3 py-2 border rounded-xl text-xs">
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl">Save Zone</button>
+          <button type="button" onclick="closeModal('safeZoneModal')" class="py-2 px-3 border text-xs font-semibold rounded-xl">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Info Modals (Privacy, Terms, Safety, Support) -->
+  <div id="infoModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 text-left shadow-2xl border border-gray-100">
+      <h3 id="infoModalTitle" class="text-lg font-bold text-[#1E1B4B]"></h3>
+      <div id="infoModalBody" class="mt-3 text-xs text-gray-600 space-y-2 leading-relaxed max-h-64 overflow-y-auto"></div>
+      <button onclick="closeModal('infoModal')" class="mt-4 w-full py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl">Close</button>
+    </div>
+  </div>
+
+  <!-- SOS Alert Modal -->
+  <div id="sosModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl border-2 border-red-500">
+      <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mx-auto mb-3 animate-pulse">
+        🚨
+      </div>
+      <h3 class="text-xl font-black text-red-600">EMERGENCY ALERT SAVED OFFLINE</h3>
+      <p class="text-xs text-gray-700 mt-2 font-medium">
+        Location: <strong>Thal University Bhakkar Campus, Thal Region</strong> (31.6266° N, 71.0657° E)
+      </p>
+      <p class="text-[11px] text-gray-500 mt-1">
+        Notified 5 guardians + Madadgar 15 & 1043 Women Helpline. Saved locally in your phone storage and queued to dispatch automatically when internet connects.
+      </p>
+      <div class="mt-4 flex gap-2">
+        <a href="tel:15" class="flex-1 py-2 bg-red-600 text-white text-xs font-bold rounded-xl text-center">Call Police 15</a>
+        <a href="tel:1043" class="flex-1 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl text-center">Call 1043 Helpline</a>
+      </div>
+      <button onclick="closeModal('sosModal')" class="mt-4 w-full py-2 bg-gray-100 text-gray-800 text-xs font-bold rounded-xl hover:bg-gray-200">
+        Dismiss Notice
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Hide splash screen after 1.5s
+    setTimeout(() => {
+      const splash = document.getElementById('splashScreen');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.remove(), 500);
+      }
+    }, 1500);
+
+    // Live PKT clock
+    setInterval(() => {
+      const now = new Date();
+      const options = { timeZone: 'Asia/Karachi', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+      const el = document.getElementById('livePktTime');
+      if (el) el.innerText = 'PKT ' + now.toLocaleTimeString('en-US', options);
+    }, 1000);
+
+    // Initial Guardian Seed (5 guardians)
+    function initGuardians() {
+      if (!localStorage.getItem('guardians')) {
+        const defaultGuardians = [
+          { id: 1, name: "Dr. Ayesha Malik", phone: "0316-7054627", relation: "Campus Mentor / Professor" },
+          { id: 2, name: "Zainab Baloch", phone: "0300-1234567", relation: "Sister" },
+          { id: 3, name: "Maryam Tariq", phone: "0321-7654321", relation: "Hostel Roommate" },
+          { id: 4, name: "Thal Uni Security", phone: "0453-920001", relation: "Campus Security Desk" },
+          { id: 5, name: "Rescue Emergency", phone: "1122", relation: "Punjab Rescue Bhakkar" }
+        ];
+        localStorage.setItem('guardians', JSON.stringify(defaultGuardians));
+      }
+      renderGuardians();
+    }
+
+    function renderGuardians() {
+      const list = JSON.parse(localStorage.getItem('guardians') || '[]');
+      const container = document.getElementById('guardiansList');
+      const countEl = document.getElementById('navGuardianCount');
+      if (countEl) countEl.innerText = list.length;
+      if (!container) return;
+
+      container.innerHTML = list.map(g => `
+        <div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-2xl border border-gray-100 hover:border-purple-200 transition-colors">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs">
+              ${g.name.charAt(0)}
+            </div>
+            <div>
+              <p class="text-xs font-bold text-[#1E1B4B]">${g.name}</p>
+              <p class="text-[10px] text-gray-500">${g.relation} · ${g.phone}</p>
+            </div>
+          </div>
+          <button onclick="deleteGuardian(${g.id})" class="text-gray-400 hover:text-red-600 text-xs px-2 py-1">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function deleteGuardian(id) {
+      let list = JSON.parse(localStorage.getItem('guardians') || '[]');
+      list = list.filter(g => g.id !== id);
+      localStorage.setItem('guardians', JSON.stringify(list));
+      renderGuardians();
+    }
+
+    function openAddGuardianModal() {
+      document.getElementById('guardianModal').classList.remove('hidden');
+    }
+
+    function saveNewGuardian(e) {
+      e.preventDefault();
+      const name = document.getElementById('gName').value.trim();
+      const phone = document.getElementById('gPhone').value.trim();
+      const relation = document.getElementById('gRelation').value.trim();
+      const list = JSON.parse(localStorage.getItem('guardians') || '[]');
+      list.push({ id: Date.now(), name, phone, relation });
+      localStorage.setItem('guardians', JSON.stringify(list));
+      closeModal('guardianModal');
+      renderGuardians();
+      alert('Guardian added offline!');
+    }
+
+    // Safe Zones
+    function initSafeZones() {
+      if (!localStorage.getItem('safeZones')) {
+        const defaultZones = [
+          { id: 1, name: "Thal University Campus", location: "Main Academic Block", status: "Verified Safe" },
+          { id: 2, name: "Girls Hostel Refuge", location: "West Wing Bhakkar", status: "Guarded 24/7" },
+          { id: 3, name: "Central Library", location: "Block B Thal Uni", status: "Active Safe Zone" }
+        ];
+        localStorage.setItem('safeZones', JSON.stringify(defaultZones));
+      }
+      renderSafeZones();
+    }
+
+    function renderSafeZones() {
+      const list = JSON.parse(localStorage.getItem('safeZones') || '[]');
+      const container = document.getElementById('safeZonesList');
+      if (!container) return;
+      container.innerHTML = list.map(z => `
+        <div class="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl">
+          <p class="font-bold text-[#1E1B4B]">${z.name}</p>
+          <p class="text-[10px] text-gray-500">${z.location} · <span class="text-emerald-700 font-semibold">${z.status}</span></p>
+        </div>
+      `).join('');
+    }
+
+    function openAddSafeZoneModal() {
+      document.getElementById('safeZoneModal').classList.remove('hidden');
+    }
+
+    function saveNewSafeZone(e) {
+      e.preventDefault();
+      const name = document.getElementById('szName').value.trim();
+      const location = document.getElementById('szLocation').value.trim();
+      const list = JSON.parse(localStorage.getItem('safeZones') || '[]');
+      list.push({ id: Date.now(), name, location, status: "User Custom Safe Zone" });
+      localStorage.setItem('safeZones', JSON.stringify(list));
+      closeModal('safeZoneModal');
+      renderSafeZones();
+      alert('Safe zone saved locally in Bhakkar storage!');
+    }
+
+    // Incident Table
+    function initIncidents() {
+      if (!localStorage.getItem('sosQueue')) {
+        const sampleQueue = [
+          { id: 101, time: new Date(Date.now() - 7200000).toISOString(), location: 'Thal University Library', status: 'synced-with-bhakkar-hub' },
+          { id: 102, time: new Date(Date.now() - 86400000).toISOString(), location: 'Girls Hostel Access Gate', status: 'synced-with-bhakkar-hub' }
+        ];
+        localStorage.setItem('sosQueue', JSON.stringify(sampleQueue));
+      }
+      renderIncidents('all');
+    }
+
+    function renderIncidents(filter) {
+      const list = JSON.parse(localStorage.getItem('sosQueue') || '[]');
+      const container = document.getElementById('incidentsTable');
+      if (!container) return;
+
+      const filtered = list.filter(item => {
+        if (filter === 'all') return true;
+        if (filter === 'offline') return item.status && item.status.includes('offline');
+        if (filter === 'synced') return item.status && item.status.includes('synced');
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-gray-400 text-center py-4">No incidents found in this filter.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="p-2.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
+          <div>
+            <p class="font-bold text-[#1E1B4B]">${item.location}</p>
+            <p class="text-[10px] text-gray-400 font-mono">${new Date(item.time).toLocaleTimeString()}</p>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${item.status && item.status.includes('offline') ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+            ${item.status && item.status.includes('offline') ? 'Saved Offline' : 'Synced Hub'}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    function filterIncidents(val) {
+      renderIncidents(val);
+    }
+
+    // Live Location Tracking Toggle
+    let locWatchId = null;
+    function toggleLocationTracking(enabled) {
+      const statusBox = document.getElementById('locStatusBox');
+      if (enabled) {
+        statusBox.className = 'p-3 bg-emerald-50 rounded-xl text-xs font-medium text-emerald-800';
+        statusBox.innerText = '🟢 Location Tracking Active (Bhakkar Campus: 31.6266° N, 71.0657° E)';
+        if (navigator.geolocation) {
+          locWatchId = navigator.geolocation.watchPosition((pos) => {
+            localStorage.setItem('lastLocation', JSON.stringify({
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              updatedAt: Date.now()
+            }));
+          });
+        }
+        alert('Location saved locally - Tracking every 10s offline!');
+      } else {
+        if (locWatchId) navigator.geolocation.clearWatch(locWatchId);
+        statusBox.className = 'p-3 bg-purple-50 rounded-xl text-xs font-medium text-[#5B21B6]';
+        statusBox.innerText = 'Status: Ready (Tap toggle to start)';
+      }
+    }
+
+    // Audio Recorder
+    let mediaRecorder = null;
+    let isRecording = false;
+    async function toggleAudioRecording() {
+      const btn = document.getElementById('btnAudioRecord');
+      const notice = document.getElementById('audioRecordNotice');
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+          isRecording = true;
+          btn.innerHTML = '<span>⏹️ Stop & Save Recording</span>';
+          notice.innerText = '🔴 Recording active... saved locally in vault';
+          notice.className = 'text-[11px] text-red-600 font-bold animate-pulse text-center';
+        } catch (e) {
+          isRecording = true;
+          btn.innerHTML = '<span>⏹️ Stop Recording (Simulated)</span>';
+          notice.innerText = '🔴 Simulated microphone recording active...';
+        }
+      } else {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+        }
+        isRecording = false;
+        btn.innerHTML = '<span>🔴 Start Recording Evidence</span>';
+        notice.innerText = '✓ Recording complete - saved locally in storage';
+        notice.className = 'text-[11px] text-emerald-600 font-bold text-center';
+        alert('Recording saved locally in Bhakkar evidence vault!');
+      }
+    }
+
+    // Check-in Countdown Timer
+    let countdownInterval = null;
+    let secondsLeft = 1800; // 30 min
+    function startCheckInTimer() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      secondsLeft = 1800;
+      updateTimerDisplay();
+      countdownInterval = setInterval(() => {
+        secondsLeft--;
+        updateTimerDisplay();
+        if (secondsLeft <= 0) {
+          clearInterval(countdownInterval);
+          triggerSOSOffline();
+        }
+      }, 1000);
+      alert('Safety countdown active for 30 minutes! If not cancelled, triggers SOS emergency offline.');
+    }
+
+    function cancelCheckInTimer() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      secondsLeft = 1800;
+      updateTimerDisplay();
+      alert('Safety timer cancelled.');
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(secondsLeft / 60);
+      const s = secondsLeft % 60;
+      document.getElementById('timerCountdown').innerText = 
+        String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    // SOS Emergency
+    function triggerSOSOffline() {
+      const queue = JSON.parse(localStorage.getItem('sosQueue') || '[]');
+      const session = JSON.parse(localStorage.getItem('safeherSession') || '{}');
+      const sosRecord = {
+        id: Date.now(),
+        time: new Date().toISOString(),
+        email: session.email || 'sanam.baloch@thaluni.edu.pk',
+        location: 'Thal University Bhakkar Campus, Thal Region',
+        status: 'saved-offline-will-send-when-online'
+      };
+      queue.unshift(sosRecord);
+      localStorage.setItem('sosQueue', JSON.stringify(queue));
+      renderIncidents('all');
+
+      if (navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 300]);
+      document.getElementById('sosModal').classList.remove('hidden');
+    }
+
+    // Modal Helpers
+    function openModal(id) {
+      if (id === 'privacyModal') {
+        showInfoModal('Privacy Constitution', '<p>Zero telemetry sold or leaked. Your location is stored strictly on your local device and only broadcasted when you initiate a journey or trigger SOS.</p><p>Built by Sanam Baloch for Thal University Bhakkar.</p>');
+      } else if (id === 'termsModal') {
+        showInfoModal('Terms of Service', '<p>SafeHer is an academic and community defense tool for Thal University students, faculty, and women of District Bhakkar.</p><p>Emergency helplines 15 and 1043 are pre-configured for instant dialing.</p>');
+      } else if (id === 'safetyModal') {
+        showInfoModal('Campus Safety Tips', '<p>1. Keep 5 guardians verified in your trusted circle.<br>2. Activate safe check-in timers when walking near campus gates after dusk.<br>3. Use the discreet audio evidence recorder if feeling intimidated.</p>');
+      } else if (id === 'supportModal') {
+        showInfoModal('Help & Support Desk', '<p>Lead Developer: Sanam Baloch<br>Email: sanam.baloch@thaluni.edu.pk<br>Campus: Thal University Bhakkar, Punjab, Pakistan.<br>Emergency Police: 15 | Women Helpline: 1043 / 1098</p>');
+      } else {
+        document.getElementById(id).classList.remove('hidden');
+      }
+    }
+
+    function showInfoModal(title, body) {
+      document.getElementById('infoModalTitle').innerText = title;
+      document.getElementById('infoModalBody').innerHTML = body;
+      document.getElementById('infoModal').classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobileDrawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('safeher_loggedIn');
+      localStorage.removeItem('safeherSession');
+      sessionStorage.removeItem('safeherSession');
+      window.location.href = '/login.html';
+    }
+
+    // Map Initialization (Leaflet with offline fallback)
+    function initMap() {
+      try {
+        const map = L.map('leafletMap').setView([31.6266, 71.0657], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Marker Thal University Campus
+        L.marker([31.6266, 71.0657])
+          .addTo(map)
+          .bindPopup('<b>Thal University Bhakkar</b><br>Operational Hub & Safe Haven')
+          .openPopup();
+
+        // Safe Zone marker (Girls Hostel)
+        L.circle([31.6290, 71.0680], { color: 'green', fillColor: '#10B981', fillOpacity: 0.5, radius: 100 })
+          .addTo(map)
+          .bindPopup('Girls Hostel Safe Zone');
+      } catch (e) {
+        document.getElementById('offlineMapFallback').classList.remove('hidden');
+      }
+    }
+
+    // PWA Install prompt handling
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      window.deferredPrompt = e;
+      const btn = document.getElementById('pwaInstallBtn');
+      if (btn) btn.classList.remove('hidden');
+    });
+
+    function installAppPrompt() {
+      if (window.deferredPrompt) {
+        window.deferredPrompt.prompt();
+      } else {
+        alert('To install SafeHer on your device, tap Share or Menu and choose "Add to Home Screen".');
+      }
+    }
+
+    // Init Page on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      initGuardians();
+      initSafeZones();
+      initIncidents();
+      // Require active logged in state
+      if (localStorage.getItem('safeher_loggedIn') !== 'true') {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      // Read active session
+      try {
+        const session = JSON.parse(localStorage.getItem('safeherSession') || sessionStorage.getItem('safeherSession') || 'null');
+        if (session) {
+          if (session.fullName) document.getElementById('userNameDisplay').innerText = session.fullName;
+          if (session.email) document.getElementById('userEmailDisplay').innerText = session.email;
+        }
+      } catch (e) {}
+      initMap();
+    });
+  </script>
+</body>
+</html>

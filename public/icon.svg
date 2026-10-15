@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#4F46E5" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#FFFFFF"/>
+  <path d="M256 64 C350 110 400 130 400 130 C400 270 340 370 256 448 C172 370 112 270 112 130 C112 130 162 110 256 64 Z" fill="url(#shieldGrad)" />
+  <path d="M220 310 L170 260 L195 235 L220 260 L315 165 L340 190 Z" fill="#FFFFFF" />
+</svg>

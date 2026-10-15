@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SafeHer — Women Safety & Emergency SOS Platform</title>
+    <meta name="description" content="SafeHer - Made in Bhakkar For Pakistan. Women Safety & Emergency SOS Platform by Sanam Baloch, Thal University Bhakkar." />
+    <meta property="og:title" content="SafeHer — Women Safety & Emergency SOS Platform" />
+    <meta property="og:description" content="SafeHer - Made in Bhakkar For Pakistan. Women Safety & Emergency SOS Platform by Sanam Baloch, Thal University Bhakkar." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- PWA Settings -->
+    <meta name="theme-color" content="#7C3AED" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="SafeHer - Bhakkar" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  </head>
+  <body class="bg-[#FAF9FC] text-[#25212B] antialiased selection:bg-[#7651A8] selection:text-white font-['Plus_Jakarta_Sans',sans-serif]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(() => console.log('SW registered - Offline Ready'))
+            .catch((e) => console.log(e));
+        });
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.deferredPrompt = e;
+        if (typeof window.showInstallButton === 'function') {
+          window.showInstallButton();
+        }
+      });
+    </script>
+  </body>
+</html>

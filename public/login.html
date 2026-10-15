@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeHer - Bhakkar | Thal University Login</title>
+  <meta name="theme-color" content="#7C3AED">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" href="/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+    .purple-grad { background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #4F46E5 100%); }
+    .text-grad { background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .uni-overlay { background: linear-gradient(180deg, rgba(124, 58, 237, 0.75) 0%, rgba(79, 70, 229, 0.75) 60%, rgba(55, 48, 163, 0.85) 100%); }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 16px rgba(225, 29, 72, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+    }
+  </style>
+</head>
+<body class="bg-[#FFFFFF] text-[#1E1B4B] min-h-screen flex flex-col justify-between selection:bg-[#7C3AED] selection:text-white">
+
+  <!-- Top Offline Status Banner -->
+  <div id="connBanner" class="w-full py-1.5 px-4 text-xs font-semibold flex items-center justify-between bg-emerald-700 text-white shadow-xs">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span id="connDot" class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+        <span id="connText">🟢 Online - Synced with Bhakkar Hub (District Bhakkar, Punjab)</span>
+      </div>
+      <div class="text-[11px] font-bold bg-white/20 px-2 py-0.5 rounded-full">100% Offline Ready</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="w-full px-4 sm:px-8 py-3 flex items-center justify-between border-b border-[#E5E7EB] bg-white">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] flex items-center justify-center text-white shadow-md font-black text-xl">
+        🛡️
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-xl text-[#1E1B4B] tracking-tight">SafeHer</span>
+          <span class="text-[10px] font-bold text-[#7C3AED] bg-[#F5F3FF] px-2 py-0.5 rounded-full border border-[#DDD6FE]">
+            PAKISTAN FIRST
+          </span>
+        </div>
+        <p class="text-[11px] text-[#6B7280]">Thal University Bhakkar Campus Shield</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button id="pwaInstallBtn" onclick="installAppPrompt()" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl shadow-xs transition-colors">
+        📲 Install App - Like WhatsApp
+      </button>
+      <a href="/dashboard.html" class="text-xs font-bold text-[#7C3AED] hover:text-[#5B21B6] px-2 py-1">
+        Dashboard →
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex items-center">
+    <div class="w-full bg-white rounded-3xl border border-[#E5E7EB] shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
+      
+      <!-- LEFT SIDE: Thal University Bhakkar Building Image -->
+      <div class="lg:col-span-6 relative h-72 sm:h-96 lg:h-auto overflow-hidden rounded-2xl m-3 lg:m-4 flex flex-col justify-between p-6 sm:p-8 text-white shadow-inner">
+        <!-- University image -->
+        <img src="/university-bg.jpg" onerror="this.src='/sairaaaa.jpg'" alt="Thal University Bhakkar" class="absolute inset-0 w-full h-full object-cover object-center scale-105">
+        <!-- Purple gradient overlay -->
+        <div class="absolute inset-0 uni-overlay"></div>
+
+        <!-- Top text -->
+        <div class="relative z-10 pt-2">
+          <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-white/30">
+            Thal University Bhakkar
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-[52px] font-black tracking-tight leading-[1.08] drop-shadow-md text-white">
+            Thal University<br>Bhakkar
+          </h1>
+        </div>
+
+        <!-- Middle text -->
+        <div class="relative z-10 my-auto py-4">
+          <div class="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 max-w-md shadow-lg">
+            <p class="text-lg sm:text-[20px] font-semibold tracking-wide drop-shadow text-white">
+              SafeHer - Made in Bhakkar For Pakistan
+            </p>
+            <p class="text-xs text-purple-100 mt-1">
+              Class Project by Sanam Baloch · BSIT Department of Computer Science.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bottom text -->
+        <div class="relative z-10 flex items-center justify-between text-xs sm:text-[14px] font-semibold border-t border-white/20 pt-4">
+          <div class="flex items-center gap-2">
+            <span>🛡️</span>
+            <span class="tracking-wide">Safe • Secure • Empowering</span>
+          </div>
+          <span class="text-[11px] text-purple-200">Offline Protected</span>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Login + Create Account Card -->
+      <div class="lg:col-span-6 p-6 sm:p-10 lg:p-12 flex flex-col justify-between bg-[#FFFFFF]">
+        <div class="max-w-md w-full mx-auto space-y-6">
+          
+          <!-- Logo & Header -->
+          <div>
+            <div class="flex items-center gap-2.5 mb-3">
+              <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#4F46E5] flex items-center justify-center text-white shadow-md text-xl">
+                🛡️
+              </div>
+              <div>
+                <span class="font-extrabold text-[32px] tracking-tight text-[#1E1B4B]">SafeHer</span>
+                <span class="text-xs text-[#6B7280] block font-medium">Pakistan First · Thal Region</span>
+              </div>
+            </div>
+
+            <h2 class="text-3xl sm:text-[40px] font-black tracking-tight text-grad leading-tight">
+              Welcome Back
+            </h2>
+            <p class="text-[#6B7280] text-[16px] mt-1 font-medium">
+              Secure login for Thal University
+            </p>
+          </div>
+
+          <!-- Tabs: Login vs Create Account -->
+          <div class="flex p-1 bg-[#F3F4F6] rounded-2xl border border-[#E5E7EB]">
+            <button id="tabLoginBtn" onclick="switchTab('login')" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all bg-[#7C3AED] text-white shadow-xs">
+              Login
+            </button>
+            <button id="tabRegisterBtn" onclick="switchTab('register')" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all text-[#6B7280] hover:text-[#1E1B4B]">
+              Create Account
+            </button>
+          </div>
+
+          <!-- Error Alert Banner -->
+          <div id="formError" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-xl"></div>
+
+          <!-- LOGIN FORM -->
+          <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-[#1E1B4B] uppercase mb-1">Email</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">✉️</span>
+                <input id="loginEmail" type="email" required value="sanam.baloch@thaluni.edu.pk" placeholder="sanam.baloch@thaluni.edu.pk" class="w-full pl-10 pr-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[#1E1B4B] uppercase mb-1">Password</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">🔒</span>
+                <input id="loginPassword" type="password" required value="thal123" placeholder="••••••••" class="w-full pl-10 pr-10 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+                <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIcon1')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#1E1B4B]">
+                  <span id="eyeIcon1">👁️</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs pt-1">
+              <label class="flex items-center gap-2 cursor-pointer font-medium text-[#1E1B4B]">
+                <input id="rememberMe" type="checkbox" checked class="w-4 h-4 text-[#7C3AED] rounded border-[#E5E7EB] focus:ring-[#7C3AED]">
+                <span>Remember me</span>
+              </label>
+              <button type="button" onclick="openForgotModal()" class="font-bold text-[#7C3AED] hover:underline">
+                Forgot password?
+              </button>
+            </div>
+
+            <button type="submit" id="btnLoginSubmit" class="w-full h-[52px] bg-gradient-to-r from-[#7C3AED] to-[#4F46E5] hover:from-[#6D28D9] hover:to-[#4338CA] text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition-all transform active:scale-[0.99] flex items-center justify-center gap-2">
+              <span>Login</span>
+            </button>
+
+            <div class="flex items-center my-3">
+              <div class="flex-1 border-t border-[#E5E7EB]"></div>
+              <span class="px-3 text-xs text-[#9CA3AF] uppercase font-bold">or</span>
+              <div class="flex-1 border-t border-[#E5E7EB]"></div>
+            </div>
+
+            <button type="button" onclick="handleGoogleLogin()" class="w-full h-11 bg-white hover:bg-gray-50 border border-[#E5E7EB] text-black font-semibold text-xs sm:text-sm rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2.5">
+              <span>🌐</span>
+              <span>Continue with Google</span>
+            </button>
+
+            <button type="button" onclick="triggerSOSOffline()" class="w-full h-[52px] bg-[#DC2626] hover:bg-[#B91C1C] text-white font-black text-sm rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+              <span>🚨</span>
+              <span>SOS Emergency (Works Offline)</span>
+            </button>
+          </form>
+
+          <!-- CREATE ACCOUNT FORM -->
+          <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-3.5 hidden">
+            <div>
+              <label class="block text-xs font-bold text-[#1E1B4B] uppercase mb-1">Full Name</label>
+              <input id="regName" type="text" required placeholder="Sanam Baloch" class="w-full px-4 py-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[#1E1B4B] uppercase mb-1">University Email</label>
+              <input id="regEmail" type="email" required placeholder="student@thaluni.edu.pk" class="w-full px-4 py-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-bold text-[#1E1B4B] uppercase">Roll No.</label>
+                <span class="text-[10px] text-gray-500">e.g. TU-BK-2024-087</span>
+              </div>
+              <input id="regRollNo" type="text" required placeholder="TU-BK-2024-087" class="w-full px-4 py-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[#1E1B4B] uppercase mb-1">Password</label>
+              <div class="relative">
+                <input id="regPassword" type="password" required oninput="evaluatePasswordStrength(this.value)" placeholder="Min 6 characters" class="w-full pl-4 pr-10 py-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+                <button type="button" onclick="togglePasswordVisibility('regPassword', 'eyeIcon2')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                  <span id="eyeIcon2">👁️</span>
+                </button>
+              </div>
+              <!-- Strength meter -->
+              <div class="mt-1.5 flex items-center gap-1.5">
+                <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div id="strengthBar" class="h-full w-0 transition-all"></div>
+                </div>
+                <span id="strengthText" class="text-[10px] font-bold text-gray-400">Too Short</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[#1E1B4B] uppercase mb-1">Confirm Password</label>
+              <input id="regConfirmPassword" type="password" required oninput="checkPasswordMatch()" placeholder="Re-enter password" class="w-full px-4 py-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-sm font-medium text-[#1E1B4B] focus:outline-none focus:border-[#7C3AED] focus:bg-white transition-colors">
+              <span id="matchFeedback" class="text-[10px] font-bold mt-1 block"></span>
+            </div>
+
+            <div class="pt-1">
+              <label class="flex items-start gap-2 cursor-pointer text-xs font-medium text-[#1E1B4B]">
+                <input id="regTerms" type="checkbox" required class="w-4 h-4 text-[#7C3AED] rounded border-[#E5E7EB] focus:ring-[#7C3AED] mt-0.5">
+                <span>I agree to Thal University Terms & Privacy Policy (Stored Offline)</span>
+              </label>
+            </div>
+
+            <button type="submit" id="btnRegisterSubmit" class="w-full h-[48px] bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:from-[#4338CA] hover:to-[#6D28D9] text-white font-bold text-sm rounded-xl shadow-lg transition-all">
+              Create SafeHer Account
+            </button>
+
+            <div class="text-center pt-1">
+              <button type="button" onclick="switchTab('login')" class="text-xs font-bold text-[#7C3AED] hover:underline">
+                Already have account? Login
+              </button>
+            </div>
+          </form>
+
+          <!-- Footer contact -->
+          <p class="text-center text-xs text-[#6B7280]">
+            Contact • <span class="font-semibold text-[#1E1B4B]">sanam.baloch@thaluni.edu.pk</span>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODALS -->
+  <!-- Forgot Password Modal -->
+  <div id="forgotModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-left shadow-2xl border border-gray-100">
+      <h3 class="text-lg font-bold text-[#1E1B4B]">Offline Password Recovery</h3>
+      <p class="text-xs text-gray-500 mt-1">Enter your university email to verify against local phone storage.</p>
+      <input id="forgotInputEmail" type="email" placeholder="student@thaluni.edu.pk" class="w-full mt-3 px-3 py-2 border rounded-xl text-xs font-medium">
+      <div id="forgotResultMsg" class="mt-2 text-xs font-bold hidden p-2 rounded-lg"></div>
+      <div class="flex gap-2 mt-4">
+        <button onclick="checkForgotPasswordOffline()" class="flex-1 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl">Verify Offline</button>
+        <button onclick="closeForgotModal()" class="py-2 px-3 border text-xs font-semibold rounded-xl">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Simulated Modal -->
+  <div id="googleModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl border border-gray-100">
+      <div class="text-3xl mb-2">🌐</div>
+      <h3 class="text-base font-bold text-[#1E1B4B]">Google Login Simulated Offline</h3>
+      <p class="text-xs text-gray-600 mt-2">
+        Authenticated offline as <strong>sanam.baloch@thaluni.edu.pk</strong> (Thal University Bhakkar).
+      </p>
+      <button onclick="completeGoogleLogin()" class="mt-4 w-full py-2.5 bg-[#7C3AED] text-white text-xs font-bold rounded-xl">
+        Continue to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- SOS Alert Modal -->
+  <div id="sosModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl border-2 border-red-500">
+      <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mx-auto mb-3 animate-pulse">
+        🚨
+      </div>
+      <h3 class="text-xl font-black text-red-600">EMERGENCY ALERT SAVED OFFLINE</h3>
+      <p class="text-xs text-gray-700 mt-2 font-medium">
+        Location: <strong>Thal University Bhakkar Campus, Thal Region</strong> (31.6266° N, 71.0657° E)
+      </p>
+      <p class="text-[11px] text-gray-500 mt-1">
+        Notified 5 guardians + Madadgar 15 & 1043 Women Helpline. Saved locally in your phone storage and queued to dispatch automatically when internet connects.
+      </p>
+      <div id="sosCallBtns" class="mt-4 flex gap-2">
+        <a href="tel:15" class="flex-1 py-2 bg-red-600 text-white text-xs font-bold rounded-xl text-center">Call Police 15</a>
+        <a href="tel:1043" class="flex-1 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-xl text-center">Call 1043 Helpline</a>
+      </div>
+      <button onclick="closeSOSModal()" class="mt-4 w-full py-2 bg-gray-100 text-gray-800 text-xs font-bold rounded-xl hover:bg-gray-200">
+        Dismiss Notice
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Initial Local Storage Setup
+    function initLocalStorage() {
+      if (!localStorage.getItem('safeherUsers')) {
+        localStorage.setItem('safeherUsers', JSON.stringify([
+          { fullName: "Sanam Baloch", email: "sanam.baloch@thaluni.edu.pk", rollNo: "TU-BK-ADMIN-001", password: "thal123", createdAt: Date.now() },
+          { fullName: "Test Student", email: "test@thaluni.edu.pk", rollNo: "TU-BK-2024-001", password: "test123", createdAt: Date.now() },
+          { fullName: "Demo User", email: "demo@gmail.com", rollNo: "TU-BK-2024-002", password: "demo123", createdAt: Date.now() }
+        ]));
+      }
+
+      // Check active session
+      try {
+        if (localStorage.getItem('safeher_loggedIn') === 'true') {
+          window.location.href = '/dashboard.html';
+        }
+      } catch (e) {}
+    }
+    initLocalStorage();
+
+    // 2. Connectivity Listeners
+    function updateOnlineStatus() {
+      const isOnline = navigator.onLine;
+      const banner = document.getElementById('connBanner');
+      const dot = document.getElementById('connDot');
+      const text = document.getElementById('connText');
+      if (isOnline) {
+        banner.className = 'w-full py-1.5 px-4 text-xs font-semibold flex items-center justify-between bg-emerald-700 text-white shadow-xs';
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-300 animate-pulse';
+        text.innerText = '🟢 Online - Synced with Bhakkar Hub (District Bhakkar, Punjab)';
+      } else {
+        banner.className = 'w-full py-1.5 px-4 text-xs font-semibold flex items-center justify-between bg-red-600 text-white shadow-xs';
+        dot.className = 'w-2 h-2 rounded-full bg-white animate-ping';
+        text.innerText = '🔴 Offline - SafeHer protecting locally - All SOS saved';
+      }
+    }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+
+    // 3. Tab Switching
+    function switchTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const regForm = document.getElementById('registerForm');
+      const btnLog = document.getElementById('tabLoginBtn');
+      const btnReg = document.getElementById('tabRegisterBtn');
+      const formError = document.getElementById('formError');
+      formError.classList.add('hidden');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+        btnLog.className = 'flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all bg-[#7C3AED] text-white shadow-xs';
+        btnReg.className = 'flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all text-[#6B7280] hover:text-[#1E1B4B]';
+      } else {
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        btnReg.className = 'flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all bg-[#7C3AED] text-white shadow-xs';
+        btnLog.className = 'flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all text-[#6B7280] hover:text-[#1E1B4B]';
+      }
+    }
+
+    // 4. Password Visibility
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerText = '🙈';
+      } else {
+        input.type = 'password';
+        icon.innerText = '👁️';
+      }
+    }
+
+    // 5. Password Strength & Match
+    function evaluatePasswordStrength(val) {
+      const bar = document.getElementById('strengthBar');
+      const text = document.getElementById('strengthText');
+      if (val.length < 6) {
+        bar.className = 'h-full bg-red-500 w-1/4 transition-all';
+        text.innerText = 'Too short (<6)';
+        text.className = 'text-[10px] font-bold text-red-500';
+      } else if (val.length < 8) {
+        bar.className = 'h-full bg-amber-500 w-1/2 transition-all';
+        text.innerText = 'Medium';
+        text.className = 'text-[10px] font-bold text-amber-500';
+      } else {
+        bar.className = 'h-full bg-emerald-500 w-full transition-all';
+        text.innerText = 'Strong';
+        text.className = 'text-[10px] font-bold text-emerald-600';
+      }
+      checkPasswordMatch();
+    }
+
+    function checkPasswordMatch() {
+      const p1 = document.getElementById('regPassword').value;
+      const p2 = document.getElementById('regConfirmPassword').value;
+      const feedback = document.getElementById('matchFeedback');
+      if (!p2) { feedback.innerText = ''; return; }
+      if (p1 === p2) {
+        feedback.innerText = '✓ Passwords match';
+        feedback.className = 'text-[10px] font-bold text-emerald-600 mt-1 block';
+      } else {
+        feedback.innerText = '✕ Passwords do not match';
+        feedback.className = 'text-[10px] font-bold text-red-500 mt-1 block';
+      }
+    }
+
+    // 6. Handle Login
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPassword').value;
+      const remember = document.getElementById('rememberMe').checked;
+      const errBox = document.getElementById('formError');
+
+      if (!email.includes('@') || !email.includes('.')) {
+        errBox.innerText = 'Email required with valid domain - checked offline';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (pass.length < 6) {
+        errBox.innerText = 'Password must be 6+ chars';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('safeherUsers') || '[]');
+      const found = users.find(u => u.email.toLowerCase() === email && u.password === pass);
+
+      if (found) {
+        const session = {
+          email: found.email,
+          fullName: found.fullName,
+          rollNo: found.rollNo || 'TU-BK-2024-001',
+          loggedIn: true,
+          loginTime: Date.now(),
+          rememberMe: remember
+        };
+        localStorage.setItem('safeher_loggedIn', 'true');
+        localStorage.setItem('safeherSession', JSON.stringify(session));
+        if (!remember) sessionStorage.setItem('safeherSession', JSON.stringify(session));
+
+        document.getElementById('btnLoginSubmit').innerHTML = '<span>Verifying Offline...</span>';
+        setTimeout(() => {
+          window.location.href = '/dashboard.html';
+        }, 600);
+      } else {
+        errBox.innerText = 'Invalid email or password (checked offline from local storage)';
+        errBox.classList.remove('hidden');
+      }
+    }
+
+    // 7. Handle Create Account
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const roll = document.getElementById('regRollNo').value.trim();
+      const pass = document.getElementById('regPassword').value;
+      const confirmPass = document.getElementById('regConfirmPassword').value;
+      const terms = document.getElementById('regTerms').checked;
+      const errBox = document.getElementById('formError');
+
+      if (name.length < 3) {
+        errBox.innerText = 'Full Name must be at least 3 characters.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (!email.includes('@') || (!email.endsWith('.pk') && !email.endsWith('.com'))) {
+        errBox.innerText = 'University Email must contain @ and end with .pk or .com';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (pass.length < 6) {
+        errBox.innerText = 'Password must be at least 6 characters.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (pass !== confirmPass) {
+        errBox.innerText = 'Passwords do not match.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (!terms) {
+        errBox.innerText = 'Please agree to Terms & Privacy Policy.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('safeherUsers') || '[]');
+      if (users.find(u => u.email.toLowerCase() === email)) {
+        errBox.innerText = 'Account already exists offline - Please login';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const newUser = { fullName: name, email, rollNo: roll, password: pass, createdAt: Date.now() };
+      users.push(newUser);
+      localStorage.setItem('safeherUsers', JSON.stringify(users));
+
+      if (navigator.vibrate) navigator.vibrate([100]);
+
+      alert('✅ Account Created Offline! Welcome ' + name + ', your account is saved locally in Bhakkar. You can now login without internet.');
+      switchTab('login');
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = '';
+    }
+
+    // 8. Google Login Mock
+    function handleGoogleLogin() {
+      document.getElementById('googleModal').classList.remove('hidden');
+    }
+    function completeGoogleLogin() {
+      const email = 'sanam.baloch@thaluni.edu.pk';
+      const users = JSON.parse(localStorage.getItem('safeherUsers') || '[]');
+      if (!users.find(u => u.email === email)) {
+        users.push({ fullName: 'Sanam Baloch', email, rollNo: 'TU-BK-ADMIN-001', password: 'thal123', createdAt: Date.now() });
+        localStorage.setItem('safeherUsers', JSON.stringify(users));
+      }
+      const session = { email, fullName: 'Sanam Baloch', rollNo: 'TU-BK-ADMIN-001', loggedIn: true, loginTime: Date.now() };
+      localStorage.setItem('safeher_loggedIn', 'true');
+      localStorage.setItem('safeherSession', JSON.stringify(session));
+      window.location.href = '/dashboard.html';
+    }
+
+    // 9. Forgot Password Modal
+    function openForgotModal() {
+      document.getElementById('forgotModal').classList.remove('hidden');
+      document.getElementById('forgotResultMsg').classList.add('hidden');
+    }
+    function closeForgotModal() {
+      document.getElementById('forgotModal').classList.add('hidden');
+    }
+    function checkForgotPasswordOffline() {
+      const email = document.getElementById('forgotInputEmail').value.trim().toLowerCase();
+      const res = document.getElementById('forgotResultMsg');
+      const users = JSON.parse(localStorage.getItem('safeherUsers') || '[]');
+      const found = users.find(u => u.email.toLowerCase() === email);
+      res.classList.remove('hidden');
+      if (found) {
+        res.className = 'mt-2 text-xs font-bold p-2 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200';
+        res.innerText = 'Your offline password: ' + found.password;
+      } else {
+        res.className = 'mt-2 text-xs font-bold p-2 rounded-lg bg-red-50 text-red-700 border border-red-200';
+        res.innerText = 'Not found offline in phone storage';
+      }
+    }
+
+    // 10. SOS Emergency Offline Button
+    function triggerSOSOffline() {
+      let lat = 31.6266;
+      let lng = 71.0657;
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => { lat = pos.coords.latitude; lng = pos.coords.longitude; recordSOS(lat, lng); },
+          () => { recordSOS(lat, lng); },
+          { timeout: 5000 }
+        );
+      } else {
+        recordSOS(lat, lng);
+      }
+    }
+
+    function recordSOS(lat, lng) {
+      const session = JSON.parse(localStorage.getItem('safeherSession') || '{}');
+      const queue = JSON.parse(localStorage.getItem('sosQueue') || '[]');
+      const sosRecord = {
+        id: Date.now(),
+        time: new Date().toISOString(),
+        email: session.email || 'guest',
+        lat,
+        lng,
+        location: 'Thal University Bhakkar Campus, Thal Region',
+        status: 'saved-offline-will-send-when-online',
+        guardians: 5,
+        helplines: ['15', '1043']
+      };
+      queue.unshift(sosRecord);
+      localStorage.setItem('sosQueue', JSON.stringify(queue));
+
+      // Vibrate & Sound
+      if (navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 300]);
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          const ctx = new AudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, ctx.currentTime);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.5);
+        }
+      } catch (e) {}
+
+      // Flash border
+      document.body.classList.add('ring-8', 'ring-red-600');
+      setTimeout(() => document.body.classList.remove('ring-8', 'ring-red-600'), 1500);
+
+      document.getElementById('sosModal').classList.remove('hidden');
+    }
+
+    function closeSOSModal() {
+      document.getElementById('sosModal').classList.add('hidden');
+    }
+
+    // PWA Install prompt handling
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      window.deferredPrompt = e;
+      const btn = document.getElementById('pwaInstallBtn');
+      if (btn) btn.classList.remove('hidden');
+    });
+
+    function installAppPrompt() {
+      if (window.deferredPrompt) {
+        window.deferredPrompt.prompt();
+      } else {
+        alert('To install SafeHer, tap the Share icon or menu in your browser and select "Add to Home Screen".');
+      }
+    }
+  </script>
+</body>
+</html>

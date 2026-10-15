@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --primary: #4A245E;
+    --primary-light: #7651A8;
+    --accent: #F1EAF8;
+    --background: #FAF9FC;
+    --card: #FFFFFF;
+    --text-primary: #25212B;
+    --text-secondary: #77717F;
+    --emergency: #D92D45;
+    --success: #247A55;
+    --border: #E9E5EE;
+  }
+
+  body {
+    background-color: #FAF9FC;
+    color: #25212B;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Custom animations */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-radar {
+  animation: radar-sweep 4s linear infinite;
+}
+
+/* 4 Ripple Rings and Bhakkar Pulse Animations */
+@keyframes bhakkarDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.8), 0 0 16px rgba(225, 29, 72, 0.6);
+  }
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 10px rgba(225, 29, 72, 0.2), 0 0 28px rgba(225, 29, 72, 0.85);
+  }
+}
+
+@keyframes rippleRing1 {
+  0% { transform: scale(0.7); opacity: 0.9; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes rippleRing2 {
+  0% { transform: scale(0.7); opacity: 0.75; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes rippleRing3 {
+  0% { transform: scale(0.7); opacity: 0.6; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+@keyframes rippleRing4 {
+  0% { transform: scale(0.7); opacity: 0.45; }
+  100% { transform: scale(3.1); opacity: 0; }
+}
+
+.bhakkar-pulse-dot {
+  animation: bhakkarDotPulse 1.8s infinite ease-in-out;
+}
+
+.bhakkar-ripple-1 {
+  animation: rippleRing1 2.4s infinite ease-out 0s;
+}
+
+.bhakkar-ripple-2 {
+  animation: rippleRing2 2.4s infinite ease-out 0.6s;
+}
+
+.bhakkar-ripple-3 {
+  animation: rippleRing3 2.4s infinite ease-out 1.2s;
+}
+
+.bhakkar-ripple-4 {
+  animation: rippleRing4 2.4s infinite ease-out 1.8s;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF9FC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D5CEDF;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7651A8;
+}
+
+/* Leaflet fix */
+.leaflet-container {
+  font-family: inherit;
+  z-index: 10;
+}

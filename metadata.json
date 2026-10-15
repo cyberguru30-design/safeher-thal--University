@@ -1,0 +1,8 @@
+{
+  "name": "SafeHer — Women Safety & Emergency SOS Platform",
+  "description": "SafeHer is an advanced women safety and emergency SOS platform providing rapid alerts, trusted contacts, safe journey tracking, interactive safety maps, and incident reporting.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
